@@ -15,7 +15,7 @@ class CardTempSerializer(serializers.ModelSerializer):
 
 
 class ClientTempSerializer(serializers.ModelSerializer):
-    cards = serializers.SerializerMethodField()
+    card = serializers.SerializerMethodField()
 
     class Meta:
         model = ClientTemp
@@ -29,8 +29,9 @@ class ClientTempSerializer(serializers.ModelSerializer):
             'phonenumber',
             'createdate',
             'update_time',
-            'cards']
+            'card']
 
-    def get_cards(self, obj):
-        cards = CardTemp.objects.filter(idclient=obj.idclient)
-        return CardTempSerializer(cards, many=True).data
+    def get_card(self, obj):
+        card = CardTemp.objects.filter(idclient=obj.idclient).first()
+        # return CardTempSerializer(cards, many=True).data
+        return card.number if card else None

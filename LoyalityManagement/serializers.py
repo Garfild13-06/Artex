@@ -17,6 +17,7 @@ class AssetsSerializers(serializers.ModelSerializer):
     begin = serializers.SerializerMethodField()
     end = serializers.SerializerMethodField()
     weight = serializers.SerializerMethodField()
+    amount = serializers.SerializerMethodField()
 
     class Meta:
         model = Asset
@@ -37,6 +38,9 @@ class AssetsSerializers(serializers.ModelSerializer):
             'lastSource',
             'lastReason'
         ]
+
+    def get_amount(self, obj):
+        return obj.amount / 100 if obj.amount else 0
 
     def get_begin(self, obj):
         group = AssetGroup.objects.filter(internalId=obj.assetGroupId).first()

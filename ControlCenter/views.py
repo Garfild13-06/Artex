@@ -15,7 +15,7 @@ class CCTest(APIView):
         queryset = ClientTemp.objects.all()
         phone_queryset = request.data.get('phonenumber', None)
         if phone_queryset:
-            queryset = queryset.filter(phonenumber__contains=phone_queryset)
+            queryset = queryset.filter(phonenumber__=phone_queryset)
         paginator = CustomLimitOffsetPagination()
         page = paginator.paginate_queryset(queryset, request)
         serializer = ClientTempSerializer(page, many=True, context={'request': request})
