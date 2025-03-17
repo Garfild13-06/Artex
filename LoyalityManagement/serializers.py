@@ -12,8 +12,11 @@ class AssetGroupSerializer(serializers.ModelSerializer):
             'weight'
         ]
 
+
 class AssetsSerializers(serializers.ModelSerializer):
-    group_info=serializers.SerializerMethodField()
+    begin = serializers.SerializerMethodField()
+    end = serializers.SerializerMethodField()
+    weight = serializers.SerializerMethodField()
 
     class Meta:
         model = Asset
@@ -26,13 +29,23 @@ class AssetsSerializers(serializers.ModelSerializer):
             'lastStatus',
             'status',
             'assetGroupId',
-            'group_info',
+            'begin',
+            'end',
+            'weight',
             'cardNumber',
             'additionalInfo',
             'lastSource',
             'lastReason'
         ]
 
-    def get_group_info(self, obj):
-        group_info = AssetGroup.objects.filter(internalId=obj.assetGroupId)
-        return AssetGroupSerializer(group_info, many=True).data
+    def get_begin(self, obj):
+        group = AssetGroup.objects.filter(internalId=obj.assetGroupId).first()
+        return group.begin if group else None
+
+    def get_end(self, obj):
+        group = AssetGroup.objects.filter(internalId=obj.assetGroupId).first()
+        return group.end if group else None
+
+    def get_weight(self, obj):
+        group = AssetGroup.objects.filter(internalId=obj.assetGroupId).first()
+        return group.weight if group else None
