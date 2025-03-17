@@ -10,11 +10,9 @@ class CustomLimitOffsetPagination(LimitOffsetPagination):
 
     def paginate_queryset(self, queryset, request, view=None):
         # Извлекаем параметры из тела запроса (body)
-        limit = request.data.get('limit')
-        offset = request.data.get('offset', 0)  # По умолчанию offset = 0
+        limit = request.data.get('limit', self.default_limit)
+        offset = request.data.get('offset', 0)
 
-        if limit is None:
-            limit = self.default_limit
         try:
             self.limit = int(limit)
             self.offset = int(offset)
