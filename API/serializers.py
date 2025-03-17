@@ -20,20 +20,12 @@ class ClientAndBonusSerializer(serializers.Serializer):
         # Находим валидные группы активов (end <= сегодняшней даты)
         valid_groups = AssetGroup.objects.filter(end__date__gte=today).values_list('internalId', flat=True)
 
-        # Фильтруем бонусы: статус Add и валидные группы
+        # Фильтруем бонусы: валидные группы
         active_bonuses = Asset.objects.filter(
             cardNumber=card_number,
-            status='Add',
+            # status='Add',
             assetGroupId__in=valid_groups
         )
-
-        # Исключаем потраченные бонусы
-        # spent_groups = Asset.objects.filter(
-        #     cardNumber=card_number,
-        #     status='Spent'
-        # ).values_list('assetGroupId', flat=True)
-        #
-        # active_bonuses = active_bonuses.exclude(assetGroupId__in=spent_groups)
 
         # Подсчитываем сумму поля amount
         total_sum = active_bonuses.aggregate(total=Sum('amount'))['total']/100 or 0
