@@ -1,0 +1,4 @@
+/.env
+/static/
+/LoyalityManagement/migrations/
+/ControlCenter/migrations/
