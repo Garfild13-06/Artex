@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'ControlCenter.apps.ControlcenterConfig',
-    'LoyalityManagement.apps.LoyalitymanagementConfig'
+    'LoyalityManagement.apps.LoyalitymanagementConfig',
+    'API.apps.ApiConfig'
 ]
 
 MIDDLEWARE = [
